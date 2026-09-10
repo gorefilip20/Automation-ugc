@@ -1,0 +1,16 @@
+import { router } from "../trpc.js";
+import { authRouter } from "./auth.js";
+import { avatarRouter } from "./avatar.js";
+import { contentRouter } from "./content.js";
+import { ugcRouter } from "./ugc.js";
+import { workspaceRouter } from "./workspace.js";
+
+export const appRouter = router({
+  auth: authRouter,
+  workspace: workspaceRouter,
+  avatar: avatarRouter,
+  content: contentRouter,
+  ugc: ugcRouter,
+});
+
+export type AppRouter = typeof appRouter;

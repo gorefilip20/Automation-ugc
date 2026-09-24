@@ -478,7 +478,7 @@ export function generateUGCScript(input: {
       .replace(/\[product\]/gi, productName)
       .replace(/\[product 2\]/gi, "the matching set")
       .replace(/\[product 3\]/gi, "the travel size")
-      .replace(/\[problem\]/gi, productDescription)
+      .replace(/\[problem\]/gi, "finding something that actually works")
       .replace(/\[time period\]/gi, "2 weeks")
       .replace(/\[time\]/gi, "2 weeks")
       .replace(/\[timeframe\]/gi, "2 weeks")

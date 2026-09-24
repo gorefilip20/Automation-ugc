@@ -2,10 +2,8 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "../db.js";
 import * as schema from "../schema.js";
-import {
-  generateCampaignContent,
-  generateUGCScript,
-} from "../services/ugc-generator.js";
+import { writeVideoPlan } from "../services/ai-writer.js";
+import { generateCampaignContent } from "../services/ugc-generator.js";
 import { protectedProcedure, publicProcedure, router } from "../trpc.js";
 
 export const ugcRouter = router({
@@ -41,7 +39,8 @@ export const ugcRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const script = generateUGCScript({
+      const { plan: script, source } = await writeVideoPlan({
+        videoType: "ugc",
         productName: input.productName,
         productDescription: input.productDescription,
         style: input.style,
@@ -69,6 +68,7 @@ export const ugcRouter = router({
           voiceoverText: script.voiceover,
           musicStyle: script.musicSuggestion,
           captionStyle: script.captionStyle,
+          scriptSource: source,
           status: "ready",
         })
         .run();
@@ -94,13 +94,13 @@ export const ugcRouter = router({
   getVideo: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
-      const video = db.query.ugcVideos.findFirst({
-        where: eq(schema.ugcVideos.id, input.id),
-      }) as any;
+      const video = db.query.ugcVideos
+        .findFirst({ where: eq(schema.ugcVideos.id, input.id) })
+        .sync();
       if (!video) return null;
       return {
         ...video,
-        script: JSON.parse(video.script),
+        script: video.script ? JSON.parse(video.script) : null,
         scenes: video.scenes ? JSON.parse(video.scenes) : [],
       };
     }),
@@ -200,9 +200,9 @@ export const ugcRouter = router({
   getCampaign: publicProcedure
     .input(z.object({ id: z.number() }))
     .query(async ({ input }) => {
-      const campaign = db.query.ugcCampaigns.findFirst({
-        where: eq(schema.ugcCampaigns.id, input.id),
-      }) as any;
+      const campaign = db.query.ugcCampaigns
+        .findFirst({ where: eq(schema.ugcCampaigns.id, input.id) })
+        .sync();
       if (!campaign) return null;
       return {
         ...campaign,
@@ -240,9 +240,11 @@ export const ugcRouter = router({
       ] as const;
       const style = styles[Math.floor(Math.random() * styles.length)];
 
-      const script = generateUGCScript({
+      const { plan: script, source } = await writeVideoPlan({
+        videoType: "ugc",
         productName: input.productName,
         productDescription: input.prompt,
+        prompt: input.prompt,
         style,
         platform: input.platform,
         duration: 30,
@@ -265,6 +267,7 @@ export const ugcRouter = router({
           callToAction: script.callToAction,
           musicStyle: script.musicSuggestion,
           captionStyle: script.captionStyle,
+          scriptSource: source,
           status: "ready",
         })
         .run();

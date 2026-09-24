@@ -1,4 +1,4 @@
-import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core";
+import { integer, real, sqliteTable, text } from "drizzle-orm/sqlite-core";
 
 export const users = sqliteTable("users", {
   id: integer("id").primaryKey({ autoIncrement: true }),
@@ -82,20 +82,7 @@ export const ugcVideos = sqliteTable("ugc_videos", {
   avatarProfileId: integer("avatarProfileId"),
   title: text("title").notNull(),
   script: text("script").notNull(),
-  style: text("style", {
-    enum: [
-      "testimonial",
-      "unboxing",
-      "tutorial",
-      "review",
-      "lifestyle",
-      "before_after",
-      "day_in_life",
-      "get_ready",
-      "haul",
-      "storytelling",
-    ],
-  }).notNull(),
+  style: text("style").notNull(),
   platform: text("platform", {
     enum: ["instagram", "tiktok", "youtube_shorts", "facebook"],
   }).notNull(),
@@ -113,6 +100,37 @@ export const ugcVideos = sqliteTable("ugc_videos", {
   })
     .notNull()
     .default("draft"),
+  // What kind of video this is: a creator-style UGC ad, a product launch
+  // film, or anything described in a free-form prompt.
+  videoType: text("videoType", { enum: ["ugc", "launch", "custom"] })
+    .notNull()
+    .default("ugc"),
+  presenter: text("presenter", {
+    enum: ["none", "voiceover", "talking_avatar"],
+  })
+    .notNull()
+    .default("none"),
+  aspectRatio: text("aspectRatio", { enum: ["9:16", "1:1", "16:9"] })
+    .notNull()
+    .default("9:16"),
+  prompt: text("prompt"),
+  // JSON: { images: string[]; presenterImage?: string; music?: string }
+  assets: text("assets"),
+  // JSON: RenderOptions (voice, brand colors, captions on/off, ...)
+  renderOptions: text("renderOptions"),
+  renderStatus: text("renderStatus", {
+    enum: ["none", "queued", "rendering", "ready", "failed"],
+  })
+    .notNull()
+    .default("none"),
+  renderStage: text("renderStage"),
+  renderProgress: integer("renderProgress").notNull().default(0),
+  renderError: text("renderError"),
+  // JSON array of pipeline notes, e.g. which providers were used or skipped.
+  renderLog: text("renderLog"),
+  videoUrl: text("videoUrl"),
+  thumbnailUrl: text("thumbnailUrl"),
+  scriptSource: text("scriptSource", { enum: ["claude", "template"] }),
   createdAt: text("createdAt")
     .notNull()
     .$defaultFn(() => new Date().toISOString()),
@@ -132,6 +150,54 @@ export const ugcCampaigns = sqliteTable("ugc_campaigns", {
   status: text("status", { enum: ["active", "paused", "completed"] })
     .notNull()
     .default("active"),
+  createdAt: text("createdAt")
+    .notNull()
+    .$defaultFn(() => new Date().toISOString()),
+});
+
+export const clipProjects = sqliteTable("clip_projects", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  workspaceId: integer("workspaceId").notNull(),
+  title: text("title").notNull(),
+  // Where the long-form video came from: a pasted link or an uploaded file.
+  sourceUrl: text("sourceUrl"),
+  sourceFile: text("sourceFile"),
+  // Free-form context for the highlight picker, e.g. "pump.fun stream for $DOGE".
+  context: text("context"),
+  // JSON: ClipOptions
+  options: text("options"),
+  status: text("status", {
+    enum: ["queued", "processing", "ready", "failed"],
+  })
+    .notNull()
+    .default("queued"),
+  stage: text("stage"),
+  progress: integer("progress").notNull().default(0),
+  error: text("error"),
+  log: text("log"),
+  sourceDuration: real("sourceDuration"),
+  // JSON: { segments, words } with absolute timestamps in seconds.
+  transcript: text("transcript"),
+  createdAt: text("createdAt")
+    .notNull()
+    .$defaultFn(() => new Date().toISOString()),
+});
+
+export const clips = sqliteTable("clips", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  projectId: integer("projectId").notNull(),
+  workspaceId: integer("workspaceId").notNull(),
+  title: text("title").notNull(),
+  hook: text("hook"),
+  reason: text("reason"),
+  score: real("score"),
+  startSec: real("startSec").notNull(),
+  endSec: real("endSec").notNull(),
+  postCaption: text("postCaption"),
+  // JSON array of hashtags.
+  hashtags: text("hashtags"),
+  videoUrl: text("videoUrl"),
+  thumbnailUrl: text("thumbnailUrl"),
   createdAt: text("createdAt")
     .notNull()
     .$defaultFn(() => new Date().toISOString()),

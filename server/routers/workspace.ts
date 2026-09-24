@@ -58,7 +58,7 @@ export const workspaceRouter = router({
       const existing = db.query.creatorWorkspaces.findFirst({
         where: (w, { and, eq }) =>
           and(eq(w.id, id), eq(w.userId, ctx.userId)),
-      });
+      }).sync();
       if (!existing) throw new Error("Workspace not found");
       db.update(schema.creatorWorkspaces)
         .set(updates)

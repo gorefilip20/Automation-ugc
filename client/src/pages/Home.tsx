@@ -21,6 +21,7 @@ import {
   Play,
   Plus,
   ScanFace,
+  Scissors,
   Settings2,
   Sparkles,
   Target,
@@ -38,7 +39,8 @@ const logoImage = "";
 const navItems = [
   { label: "Overview", icon: Layers3 },
   { label: "Avatar studio", icon: ScanFace },
-  { label: "UGC studio", icon: Video, route: "/ugc-studio" },
+  { label: "Video studio", icon: Video, route: "/ugc-studio" },
+  { label: "Stream clipper", icon: Scissors, route: "/clipper" },
   { label: "Campaigns", icon: Clapperboard, route: "/campaigns" },
   { label: "Content library", icon: ImageIcon },
 ];

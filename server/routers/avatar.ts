@@ -7,6 +7,36 @@ import {
   generateVariationGroup,
 } from "../services/ugc-generator.js";
 import { protectedProcedure, router } from "../trpc.js";
+import path from "path";
+import { v4 as uuidv4 } from "uuid";
+import { mediaUrlFor, uploadsDir } from "../services/media.js";
+import { generateImage, imageGenConfigured } from "../services/providers.js";
+
+/**
+ * A real AI portrait when an image provider is configured, otherwise a stock
+ * placeholder (which the video pipeline will never animate into a presenter).
+ */
+async function avatarImage(
+  brief: { prompt: string; pose: string; wardrobe: string; setting?: string; composition?: string },
+  seed: number
+): Promise<string> {
+  if (!imageGenConfigured()) return generateAvatarImageUrl(seed);
+  const workspace = db.query.creatorWorkspaces.findFirst().sync();
+  const prompt = [
+    "Photorealistic portrait photo of a fictional adult virtual content creator (not a real person).",
+    workspace?.visualAnchor && `Consistent identity: ${workspace.visualAnchor}.`,
+    brief.prompt,
+    `Pose: ${brief.pose}. Wardrobe: ${brief.wardrobe}.`,
+    brief.setting && `Setting: ${brief.setting}.`,
+    brief.composition && `Composition: ${brief.composition}.`,
+    "Natural skin texture, soft natural light, vertical framing.",
+  ]
+    .filter(Boolean)
+    .join(" ");
+  const file = path.join(uploadsDir, `avatar_${uuidv4()}.png`);
+  await generateImage(prompt, file, "portrait");
+  return mediaUrlFor(file);
+}
 
 export const avatarRouter = router({
   generate: protectedProcedure
@@ -31,7 +61,7 @@ export const avatarRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const imageUrl = generateAvatarImageUrl(input.seed);
+      const imageUrl = await avatarImage(input, input.seed);
 
       const result = db
         .insert(schema.avatarProfiles)
@@ -103,8 +133,8 @@ export const avatarRouter = router({
 
       for (let i = 0; i < input.count; i++) {
         const varSeed = input.seed + i * 42;
-        const imageUrl = generateAvatarImageUrl(varSeed);
         const wardrobeText = input.wardrobes[i] || input.wardrobe;
+        const imageUrl = await avatarImage({ ...input, wardrobe: wardrobeText }, varSeed);
 
         const profileResult = db
           .insert(schema.avatarProfiles)
@@ -169,7 +199,7 @@ export const avatarRouter = router({
             eq(p.workspaceId, input.workspaceId),
             eq(p.variationGroup, input.variationGroup)
           ),
-      }) as unknown as any[];
+      }).sync();
 
       for (const profile of profiles) {
         db.update(schema.avatarProfiles)
@@ -215,7 +245,7 @@ export const avatarRouter = router({
       })
     )
     .mutation(async ({ input }) => {
-      const imageUrl = generateAvatarImageUrl(input.seed);
+      const imageUrl = await avatarImage(input, input.seed);
 
       db.update(schema.avatarProfiles)
         .set({
@@ -243,9 +273,9 @@ export const avatarRouter = router({
     )
     .mutation(async ({ input }) => {
       for (const profileId of input.profileIds) {
-        const profile = db.query.avatarProfiles.findFirst({
-          where: eq(schema.avatarProfiles.id, profileId),
-        }) as any;
+        const profile = db.query.avatarProfiles
+          .findFirst({ where: eq(schema.avatarProfiles.id, profileId) })
+          .sync();
         if (!profile) continue;
 
         db.insert(schema.contentItems)

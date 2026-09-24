@@ -7,6 +7,7 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import Home from "./pages/Home";
 import UGCStudio from "./pages/UGCStudio";
 import Campaigns from "./pages/Campaigns";
+import Clipper from "./pages/Clipper";
 
 function Router() {
   return (
@@ -14,6 +15,7 @@ function Router() {
       <Route path="/" component={Home} />
       <Route path="/ugc-studio" component={UGCStudio} />
       <Route path="/campaigns" component={Campaigns} />
+      <Route path="/clipper" component={Clipper} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

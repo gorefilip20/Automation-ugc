@@ -153,7 +153,7 @@ async function transcribe(source: string, scratch: string, onChunk: (i: number, 
     form.append("response_format", "verbose_json");
     form.append("timestamp_granularities[]", "word");
     form.append("timestamp_granularities[]", "segment");
-    const res = await fetch("https://api.openai.com/v1/audio/transcriptions", {
+    const res = await fetch(`${(process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "")}/audio/transcriptions`, {
       method: "POST",
       headers: { Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
       body: form,

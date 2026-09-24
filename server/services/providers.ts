@@ -8,6 +8,8 @@ import { downloadTo } from "./media.js";
  * video with captions and music) instead of failing.
  */
 
+const openaiBase = () => (process.env.OPENAI_BASE_URL || "https://api.openai.com/v1").replace(/\/$/, "");
+
 const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms));
 
 async function expectOk(res: Response, what: string) {
@@ -63,7 +65,7 @@ export async function synthesizeSpeech(
     return dest;
   }
 
-  const res = await fetch("https://api.openai.com/v1/audio/speech", {
+  const res = await fetch(`${openaiBase()}/audio/speech`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
@@ -102,7 +104,7 @@ export async function generateImage(
     square: "1024x1024",
     landscape: "1536x1024",
   }[orientation];
-  const res = await fetch("https://api.openai.com/v1/images/generations", {
+  const res = await fetch(`${openaiBase()}/images/generations`, {
     method: "POST",
     headers: {
       Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,

@@ -8,6 +8,7 @@ import Home from "./pages/Home";
 import UGCStudio from "./pages/UGCStudio";
 import Campaigns from "./pages/Campaigns";
 import Clipper from "./pages/Clipper";
+import ImageStudio from "./pages/ImageStudio";
 
 function Router() {
   return (
@@ -16,6 +17,7 @@ function Router() {
       <Route path="/ugc-studio" component={UGCStudio} />
       <Route path="/campaigns" component={Campaigns} />
       <Route path="/clipper" component={Clipper} />
+      <Route path="/image-studio" component={ImageStudio} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

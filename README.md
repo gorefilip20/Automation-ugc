@@ -10,6 +10,7 @@ A studio that writes, voices, edits and renders short-form videos, and turns lon
 | Product launch videos | Video studio → Product launch | Title reveal, feature scenes, CTA "available now" card, in brand colours. |
 | Any video from a prompt | Video studio → Anything | Describe the video; it is scripted and rendered. |
 | Stream clipping (pump.fun, Twitch, podcasts) | Stream clipper | Upload a recording or paste a link. The best moments are found, reframed to 9:16, captioned word by word and titled with a hook. |
+| Images | Image studio | AI product shots, lifestyle scenes, creator selfies, flat lays and thumbnails (with `OPENAI_API_KEY`), or ad creatives from your own product photo, or brand text cards. Headline, subline and label are burned in; 1:1, 4:5, 9:16 or 16:9 PNG. |
 | Scripts and campaigns | Video studio → Script only, Campaigns | Scripts, captions, hashtags and posting schedules. |
 | AI creator portraits | Dashboard avatar studio | Portrait variations of your fictional creator (real images when `OPENAI_API_KEY` is set). |
 
@@ -47,7 +48,7 @@ Nothing is required: without keys the studio still renders videos using template
 | --- | --- |
 | `ANTHROPIC_API_KEY` | Claude writes every script (and sees your product photos), and picks the clip moments from stream transcripts. |
 | `ELEVENLABS_API_KEY` or `OPENAI_API_KEY` | Voiceovers. |
-| `OPENAI_API_KEY` | AI scene images, AI presenter portraits, stream transcription (word-timed captions). |
+| `OPENAI_API_KEY` | AI images in the Image studio, AI scene images in videos, AI presenter portraits, stream transcription (word-timed captions). `OPENAI_BASE_URL` points it at a proxy or compatible service. |
 | `HEYGEN_API_KEY` + `HEYGEN_VOICE_ID`, or `DID_API_KEY` | Talking AI creator on camera, lip-synced to the script. |
 | `yt-dlp` on the server | Clipping from YouTube/Twitch/Kick/X page links (direct `.mp4`/`.m3u8` links and uploads always work). |
 
@@ -76,6 +77,7 @@ server/services/job-queue.ts       in-process render queue
 server/routers/video.ts, clips.ts  tRPC APIs;  POST /api/upload streams large files to disk
 client/src/pages/UGCStudio.tsx     video studio
 client/src/pages/Clipper.tsx       stream clipper
+client/src/pages/ImageStudio.tsx   image studio (server/services/image-creator.ts)
 ```
 
 Generated media lives in `data/media` (served at `/media`); the SQLite database is `data/ugc.db`. Set `DATA_DIR` to move both.

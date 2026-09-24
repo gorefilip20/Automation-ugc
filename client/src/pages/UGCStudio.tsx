@@ -382,6 +382,7 @@ export default function UGCStudio() {
             <button style={tabButton(activeTab === "create")} onClick={() => setActiveTab("create")}><WandSparkles size={13} /> Create</button>
             <button style={tabButton(activeTab === "library")} onClick={() => setActiveTab("library")}><Film size={13} /> Library</button>
             <button style={tabButton(false)} onClick={() => setLocation("/clipper")}><Scissors size={13} /> Clipper</button>
+            <button style={tabButton(false)} onClick={() => setLocation("/image-studio")}><ImagePlus size={13} /> Images</button>
           </div>
         </header>
 

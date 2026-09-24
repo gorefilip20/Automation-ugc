@@ -259,12 +259,13 @@ Format: Layer, Start, End, Style, Name, MarginL, MarginR, MarginV, Effect, Text
     if (s.kind === "title" || s.kind === "cta") {
       const headline = s.headline || s.textOverlay || (s.kind === "cta" ? input.plan.callToAction : input.plan.title);
       const titleY = t.image ? Math.round(h * 0.3) : Math.round(h * 0.45);
+      // Bottom-anchored: a headline that wraps grows upward, clear of the subline.
       add(t.start + 0.1, end, "Title",
-        `{\\pos(${Math.round(w / 2)},${titleY})\\fad(250,150)\\fscx80\\fscy80\\t(0,300,\\fscx100\\fscy100)}${assText(headline.toUpperCase())}`, 2);
+        `{\\an2\\pos(${Math.round(w / 2)},${titleY})\\fad(250,150)\\fscx80\\fscy80\\t(0,300,\\fscx100\\fscy100)}${assText(headline.toUpperCase())}`, 2);
       const sub = s.kind === "cta" ? (s.textOverlay && s.textOverlay !== headline ? s.textOverlay : input.plan.callToAction) : s.textOverlay !== headline ? s.textOverlay : "";
       if (sub) {
         add(t.start + 0.35, end, "Sub",
-          `{\\pos(${Math.round(w / 2)},${titleY + Math.round(titleSize * 1.1)})\\an8\\fad(250,150)}${assText(sub)}`, 2);
+          `{\\an8\\pos(${Math.round(w / 2)},${titleY + Math.round(titleSize * 0.3)})\\fad(250,150)}${assText(sub)}`, 2);
       }
       continue;
     }

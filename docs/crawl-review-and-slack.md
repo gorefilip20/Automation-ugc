@@ -81,3 +81,7 @@ GOOGLE_DATA_MANAGER_CUSTOMER_MATCH_TERMS_ACCEPTED=true
 ```
 
 Google Customer Match terms must be accepted in the operating account. Audience creation and member ingestion are provider-side operations and may remain asynchronous or subject to account eligibility and policy review. The response includes the external audience ID so the next ad-set/ad-group creation step can attach it.
+
+## Safe end-to-end simulation
+
+Run `npm run test:ad-deployment` to exercise the real deployment service with an intercepted `fetch` implementation. The test simulates Meta Custom Audience creation, Meta member upload, Meta campaign creation, Google Data Manager audience creation, Google member ingestion, Google campaign-budget creation, and Google campaign creation. It also verifies that the consent gate rejects an unapproved audience request, raw email text is never transmitted, and the expected SHA-256 hash is present in the simulated provider payloads. No provider network request is made by this test.

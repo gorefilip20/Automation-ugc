@@ -135,3 +135,70 @@
 .secondary-button { border:1px solid #3155d8; color:#3155d8; background:#fffdf9; font:600 10px 'DM Sans'; padding:10px 13px; display:flex; align-items:center; justify-content:center; gap:7px; }
 .secondary-button:hover { background:#edf0ff; }
 .secondary-button:disabled { opacity:.55; cursor:not-allowed; }
+
+.crawl-action { border:0; background:transparent; color:#3155d8; font:600 9px 'DM Sans'; display:flex; align-items:center; gap:5px; padding:8px 0 0; }
+.review-wrap { max-width:1390px; }
+.review-loading { min-height:100vh; display:flex; align-items:center; justify-content:center; gap:9px; color:#66718a; font-size:12px; }
+.review-state { min-width:190px; padding:13px 15px; border:1px solid #ded9d0; background:#fffdf9; display:grid; grid-template-columns:20px 1fr; gap:2px 8px; align-items:center; }
+.review-state > span { grid-row:span 2; width:20px; height:20px; border-radius:50%; display:grid; place-items:center; color:#fff; background:#3155d8; }
+.review-state.ready > span { background:#5ca679; }
+.review-state.failed > span { background:#b75e58; }
+.review-state strong { font-size:10px; }
+.review-state small { color:#8c94a1; font-size:8px; }
+.review-progress { padding:19px; margin-bottom:20px; }
+.review-progress-head { display:flex; justify-content:space-between; align-items:center; }
+.review-progress-head strong { font:500 24px 'Bodoni Moda'; }
+.review-progress .progress-line { margin:14px 0 18px; }
+.stage-row { display:grid; grid-template-columns:repeat(5,1fr); gap:10px; }
+.stage { position:relative; color:#9aa2ae; display:grid; grid-template-columns:23px 1fr; column-gap:7px; align-items:center; }
+.stage:not(:last-child):after { content:""; position:absolute; height:1px; background:#ddd8cd; left:26px; right:-10px; top:11px; z-index:0; }
+.stage-dot { width:23px; height:23px; border:1px solid #d7d1c6; border-radius:50%; display:grid; place-items:center; background:#fffdf9; font-size:9px; position:relative; z-index:1; }
+.stage strong,.stage small { grid-column:2; display:block; }
+.stage strong { font-size:10px; color:#7b8494; }
+.stage small { font-size:8px; margin-top:3px; }
+.stage.current,.stage.complete { color:#3155d8; }
+.stage.current .stage-dot,.stage.complete .stage-dot { border-color:#3155d8; color:#3155d8; }
+.stage.complete .stage-dot { color:#fff; background:#3155d8; }
+.stage.current strong,.stage.complete strong { color:#1b2333; }
+.error-callout { display:flex; gap:7px; align-items:center; color:#9a7256; background:#fbefe7; font-size:10px; padding:10px; margin-top:16px; }
+.review-metrics { display:grid; grid-template-columns:repeat(4,1fr); gap:12px; margin-bottom:20px; }
+.metric-card { background:#fffdf9; border:1px solid #ded9d0; padding:15px; }
+.metric-card span { display:block; color:#8c94a1; font-size:8px; letter-spacing:.11em; }
+.metric-card strong { display:block; font:500 25px 'Bodoni Moda'; margin-top:4px; }
+.metric-card strong small { color:#8c94a1; font:400 10px 'DM Sans'; }
+.metric-card p { color:#8c94a1; font-size:9px; line-height:13px; margin-top:4px; }
+.review-grid { display:grid; grid-template-columns:1.18fr .82fr; gap:22px; }
+.email-review-card,.source-card { padding:19px; }
+.breakdown-bars { display:grid; gap:8px; padding:3px 0 16px; }
+.breakdown-row { display:grid; grid-template-columns:75px 1fr 22px; gap:9px; align-items:center; font-size:9px; color:#697487; }
+.breakdown-row strong { text-align:right; color:#1b2333; font-size:10px; }
+.breakdown-track { height:6px; background:#eeeae3; }
+.breakdown-track i { display:block; height:100%; background:#3155d8; min-width:0; }
+.breakdown-track i.status-likely_valid { background:#6d8ff0; }
+.breakdown-track i.status-risky,.breakdown-track i.status-catch_all { background:#dca879; }
+.breakdown-track i.status-unknown { background:#a6afbe; }
+.breakdown-track i.status-invalid { background:#bf716a; }
+.email-table { border-top:1px solid #e8e3da; }
+.email-row { display:grid; grid-template-columns:9px 1fr 145px; gap:10px; padding:12px 0; border-bottom:1px solid #eeeae3; align-items:center; }
+.email-status-dot { width:8px; height:8px; border-radius:50%; background:#a6afbe; }
+.email-status-dot.status-verified,.email-status-dot.status-likely_valid { background:#5ca679; }
+.email-status-dot.status-risky,.email-status-dot.status-catch_all { background:#dca879; }
+.email-status-dot.status-invalid { background:#bf716a; }
+.email-value strong,.email-value span,.email-result strong,.email-result span { display:block; }
+.email-value strong { font-size:10px; }
+.email-value span,.email-result span { color:#8c94a1; font-size:8px; line-height:12px; margin-top:3px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+.email-result { text-align:right; }
+.email-result strong { color:#3155d8; font-size:9px; }
+.empty-review { color:#8c94a1; font-size:10px; padding:25px 0; text-align:center; }
+.review-side { display:grid; gap:20px; align-content:start; }
+.source-row { display:flex; justify-content:space-between; gap:10px; border-top:1px solid #e8e3da; padding:11px 0; }
+.source-row strong,.source-row span { display:block; }
+.source-row strong { font-size:10px; }
+.source-row span { max-width:260px; color:#8c94a1; font-size:8px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; margin-top:3px; }
+.source-row small { color:#3155d8; font-size:8px; white-space:nowrap; }
+.slack-card { background:#1b2333; color:#f8f5ef; padding:18px; display:flex; gap:12px; align-items:flex-start; }
+.slack-icon { width:29px; height:29px; display:grid; place-items:center; background:#4a154b; color:#fff; flex:none; }
+.slack-card h3 { font:500 20px 'Bodoni Moda'; margin:4px 0; }
+.slack-card p { color:#aeb7c5; font-size:9px; line-height:14px; }
+@media (max-width: 900px) { .review-grid { grid-template-columns:1fr; } .review-metrics { grid-template-columns:repeat(2,1fr); } }
+@media (max-width: 620px) { .review-metrics { grid-template-columns:1fr 1fr; } .stage-row { gap:4px; } .stage small { display:none; } .stage { grid-template-columns:23px 1fr; } .email-row { grid-template-columns:9px 1fr; } .email-result { grid-column:2; text-align:left; } }

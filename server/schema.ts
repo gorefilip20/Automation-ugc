@@ -136,3 +136,72 @@ export const ugcCampaigns = sqliteTable("ugc_campaigns", {
     .notNull()
     .$defaultFn(() => new Date().toISOString()),
 });
+
+export const crawlJobs = sqliteTable("crawl_jobs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  workspaceId: integer("workspaceId").notNull(),
+  domain: text("domain").notNull(),
+  rootUrl: text("rootUrl").notNull(),
+  depthLimit: integer("depthLimit").notNull().default(4),
+  pageLimit: integer("pageLimit").notNull().default(100),
+  status: text("status", { enum: ["queued", "crawling", "extracting", "verifying", "ready", "failed"] }).notNull().default("queued"),
+  pagesDiscovered: integer("pagesDiscovered").notNull().default(0),
+  pagesCrawled: integer("pagesCrawled").notNull().default(0),
+  candidatesFound: integer("candidatesFound").notNull().default(0),
+  verifiedCount: integer("verifiedCount").notNull().default(0),
+  riskyCount: integer("riskyCount").notNull().default(0),
+  unknownCount: integer("unknownCount").notNull().default(0),
+  errorMessage: text("errorMessage"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updatedAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const crawlPages = sqliteTable("crawl_pages", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  jobId: integer("jobId").notNull(),
+  url: text("url").notNull(),
+  depth: integer("depth").notNull().default(0),
+  status: text("status", { enum: ["queued", "crawled", "skipped", "failed"] }).notNull().default("queued"),
+  httpStatus: integer("httpStatus"),
+  title: text("title"),
+  discoveredEmails: integer("discoveredEmails").notNull().default(0),
+  crawledAt: text("crawledAt"),
+});
+
+export const emailCandidates = sqliteTable("email_candidates", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  jobId: integer("jobId").notNull(),
+  email: text("email").notNull(),
+  personName: text("personName"),
+  role: text("role"),
+  sourceUrl: text("sourceUrl").notNull(),
+  sourceType: text("sourceType").notNull().default("public_page"),
+  confidence: integer("confidence").notNull().default(50),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const emailVerifications = sqliteTable("email_verifications", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  candidateId: integer("candidateId").notNull(),
+  syntaxStatus: text("syntaxStatus").notNull(),
+  dnsStatus: text("dnsStatus").notNull(),
+  smtpStatus: text("smtpStatus").notNull(),
+  finalStatus: text("finalStatus", { enum: ["verified", "likely_valid", "risky", "catch_all", "unknown", "invalid"] }).notNull(),
+  mxHost: text("mxHost"),
+  responseCode: text("responseCode"),
+  reason: text("reason"),
+  checkedAt: text("checkedAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const webhookDeliveries = sqliteTable("webhook_deliveries", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  jobId: integer("jobId"),
+  provider: text("provider").notNull().default("slack"),
+  eventType: text("eventType").notNull(),
+  status: text("status", { enum: ["queued", "delivered", "failed"] }).notNull().default("queued"),
+  attemptCount: integer("attemptCount").notNull().default(0),
+  responseCode: integer("responseCode"),
+  errorMessage: text("errorMessage"),
+  deliveredAt: text("deliveredAt"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+});

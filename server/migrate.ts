@@ -104,6 +104,75 @@ sqlite.exec(`
     status TEXT NOT NULL DEFAULT 'active',
     createdAt TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS crawl_jobs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    workspaceId INTEGER NOT NULL,
+    domain TEXT NOT NULL,
+    rootUrl TEXT NOT NULL,
+    depthLimit INTEGER NOT NULL DEFAULT 4,
+    pageLimit INTEGER NOT NULL DEFAULT 100,
+    status TEXT NOT NULL DEFAULT 'queued',
+    pagesDiscovered INTEGER NOT NULL DEFAULT 0,
+    pagesCrawled INTEGER NOT NULL DEFAULT 0,
+    candidatesFound INTEGER NOT NULL DEFAULT 0,
+    verifiedCount INTEGER NOT NULL DEFAULT 0,
+    riskyCount INTEGER NOT NULL DEFAULT 0,
+    unknownCount INTEGER NOT NULL DEFAULT 0,
+    errorMessage TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    updatedAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS crawl_pages (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    jobId INTEGER NOT NULL,
+    url TEXT NOT NULL,
+    depth INTEGER NOT NULL DEFAULT 0,
+    status TEXT NOT NULL DEFAULT 'queued',
+    httpStatus INTEGER,
+    title TEXT,
+    discoveredEmails INTEGER NOT NULL DEFAULT 0,
+    crawledAt TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS email_candidates (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    jobId INTEGER NOT NULL,
+    email TEXT NOT NULL,
+    personName TEXT,
+    role TEXT,
+    sourceUrl TEXT NOT NULL,
+    sourceType TEXT NOT NULL DEFAULT 'public_page',
+    confidence INTEGER NOT NULL DEFAULT 50,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS email_verifications (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    candidateId INTEGER NOT NULL,
+    syntaxStatus TEXT NOT NULL,
+    dnsStatus TEXT NOT NULL,
+    smtpStatus TEXT NOT NULL,
+    finalStatus TEXT NOT NULL,
+    mxHost TEXT,
+    responseCode TEXT,
+    reason TEXT,
+    checkedAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS webhook_deliveries (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    jobId INTEGER,
+    provider TEXT NOT NULL DEFAULT 'slack',
+    eventType TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'queued',
+    attemptCount INTEGER NOT NULL DEFAULT 0,
+    responseCode INTEGER,
+    errorMessage TEXT,
+    deliveredAt TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 const existingUser = sqlite

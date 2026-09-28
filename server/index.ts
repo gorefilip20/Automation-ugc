@@ -5,6 +5,7 @@ import path from "path";
 import { fileURLToPath } from "url";
 import { appRouter } from "./routers/index.js";
 import type { Context } from "./trpc.js";
+import { startCrawlerWorker } from "./services/crawl-worker.js";
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
@@ -40,4 +41,5 @@ app.get("*", (_req, res) => {
 
 app.listen(PORT, "0.0.0.0", () => {
   console.log(`UGC Automation server running on http://localhost:${PORT}`);
+  startCrawlerWorker();
 });

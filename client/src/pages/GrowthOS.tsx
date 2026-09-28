@@ -90,6 +90,7 @@ export default function GrowthOS() {
   const [deploymentApproved, setDeploymentApproved] = useState(false);
   const adsStatusQuery = trpc.ads.status.useQuery();
   const deployMutation = trpc.ads.deployPausedCampaign.useMutation();
+  const crawlStartMutation = trpc.crawl.start.useMutation();
 
   const selectedContacts = contacts.filter((item) => item.selected);
   const readiness = useMemo(() => {
@@ -114,6 +115,21 @@ export default function GrowthOS() {
     setContacts(next.contacts);
     setAnalyzing(false);
     toast.success("Brand intelligence refreshed", { description: `${next.contacts.length} contact signals found on ${domain}` });
+  }
+
+  async function startStandardCrawl() {
+    const domain = formatDomain(url);
+    if (!domain || !domain.includes(".")) {
+      toast.error("Paste a valid website URL before starting a crawl");
+      return;
+    }
+    try {
+      const result = await crawlStartMutation.mutateAsync({ workspaceId: 1, url: `https://${domain}` });
+      toast.success("Standard crawl queued", { description: "The review screen will update as pages and email signals are processed." });
+      setLocation(`/growth-os/review/${result.jobId}`);
+    } catch (error) {
+      toast.error(error instanceof Error ? error.message : "Could not start crawl");
+    }
   }
 
   function toggleContact(email: string) {
@@ -192,7 +208,7 @@ export default function GrowthOS() {
         <div className="content-wrap growth-wrap">
           <section className="page-heading"><div><div className="eyebrow"><span className="eyebrow-line" /> BRAND GROWTH OS</div><h1>Turn a website into<br /><em>a growth plan.</em></h1><p>Understand the brand, find the right people, create the assets, and prepare campaigns from one focused workspace.</p></div><div className="readiness-card"><span>LAUNCH READINESS</span><strong>{readiness}%</strong><div className="progress-line"><span style={{ width: `${readiness}%` }} /></div><small>{readiness >= 90 ? "Ready for review" : "A few inputs to go"}</small></div></section>
 
-          <section className="url-intake card-surface"><div className="url-intake-copy"><div className="section-number">01 / START WITH A URL</div><h2>Paste the brand website.</h2><p>We’ll map its positioning, audience, creative angles, and public contact signals so your team can move from blank page to action.</p></div><div className="url-form"><div className="url-input"><Globe2 size={17} /><input value={url} onChange={(event) => setUrl(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") analyzeSite(); }} placeholder="https://yourbrand.com" /><button onClick={analyzeSite} disabled={analyzing}>{analyzing ? <RefreshCw className="spin-icon" size={15} /> : <ArrowRight size={15} />}</button></div><span className="field-note"><Check size={12} /> Public pages only · no login required</span></div></section>
+          <section className="url-intake card-surface"><div className="url-intake-copy"><div className="section-number">01 / START WITH A URL</div><h2>Paste the brand website.</h2><p>We’ll map its positioning, audience, creative angles, and public contact signals so your team can move from blank page to action.</p></div><div className="url-form"><div className="url-input"><Globe2 size={17} /><input value={url} onChange={(event) => setUrl(event.target.value)} onKeyDown={(event) => { if (event.key === "Enter") analyzeSite(); }} placeholder="https://yourbrand.com" /><button onClick={analyzeSite} disabled={analyzing}>{analyzing ? <RefreshCw className="spin-icon" size={15} /> : <ArrowRight size={15} />}</button></div><span className="field-note"><Check size={12} /> Public pages only · no login required</span><button className="crawl-action" onClick={startStandardCrawl} disabled={crawlStartMutation.isPending}><Globe2 size={13} /> {crawlStartMutation.isPending ? "Queueing standard crawl…" : "Start standard crawl"}</button></div></section>
 
           <div className="step-tabs"><button className={activeStep === "discover" ? "active" : ""} onClick={() => setActiveStep("discover")}><span>01</span> Discover</button><button className={activeStep === "create" ? "active" : ""} onClick={() => setActiveStep("create")}><span>02</span> Create</button><button className={activeStep === "launch" ? "active" : ""} onClick={() => setActiveStep("launch")}><span>03</span> Launch</button></div>
 

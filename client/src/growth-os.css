@@ -1,0 +1,121 @@
+.growth-wrap { max-width: 1390px; }
+.readiness-card { min-width: 190px; padding: 14px 16px; border: 1px solid #ded9d0; background: #fffdf9; }
+.readiness-card span,.readiness-card small { display:block; color:#8991a0; font-size:8px; letter-spacing:.12em; text-transform:uppercase; }
+.readiness-card strong { display:block; font:500 31px 'Bodoni Moda'; margin:3px 0 8px; }
+.readiness-card .progress-line { margin:0 0 7px; }
+.url-intake { display:grid; grid-template-columns: .9fr 1.1fr; gap:35px; padding:22px; margin-bottom:24px; align-items:center; }
+.url-intake-copy h2 { font:500 29px/.98 'Bodoni Moda'; letter-spacing:-.05em; margin:8px 0 9px; }
+.url-intake-copy p,.muted-copy { color:#7b8494; font-size:11px; line-height:17px; max-width:490px; }
+.url-form { background:#f1eee8; padding:14px; }
+.url-input { background:#fffdf9; border:1px solid #d7d1c6; padding:5px 6px 5px 12px; display:flex; align-items:center; gap:8px; }
+.url-input svg { color:#3155d8; flex:none; }
+.url-input input { border:0; outline:0; flex:1; background:transparent; font:500 12px 'DM Sans'; color:#1b2333; min-width:0; }
+.url-input button { background:#3155d8; color:white; border:0; width:31px; height:31px; display:grid; place-items:center; border-radius:2px; }
+.field-note { color:#7b8494; font-size:9px; margin-top:9px; display:flex; gap:5px; align-items:center; }
+.field-note svg { color:#5ca679; }
+.step-tabs { display:flex; gap:25px; border-bottom:1px solid #d8d2c7; margin-bottom:22px; }
+.step-tabs button { border:0; border-bottom:2px solid transparent; background:none; color:#8c94a1; padding:11px 0; font:600 10px 'DM Sans'; display:flex; gap:8px; align-items:center; }
+.step-tabs button span { color:#3155d8; font-size:9px; }
+.step-tabs button.active { color:#1b2333; border-bottom-color:#3155d8; }
+.growth-grid { display:grid; grid-template-columns:1.05fr .95fr; gap:23px; }
+.brand-card,.opportunity-card,.contacts-card { padding:19px; }
+.brand-identity { display:flex; align-items:center; gap:12px; padding:4px 0 14px; }
+.brand-logo-tile { width:48px; height:48px; display:grid; place-items:center; background:#3155d8; color:#fff; font:500 27px 'Bodoni Moda'; }
+.brand-identity h2 { font:500 27px 'Bodoni Moda'; letter-spacing:-.05em; }
+.brand-identity span { display:block; color:#8c94a1; font-size:10px; margin-top:3px; }
+.brand-identity .icon-button { margin-left:auto; }
+.brand-description { border-top:1px solid #e8e3da; padding:14px 0; color:#566274; font-size:12px; line-height:18px; }
+.insight-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:10px; border-top:1px solid #e8e3da; padding:14px 0; }
+.insight-grid span,.insight-grid strong { display:block; }
+.insight-grid span { color:#8c94a1; text-transform:uppercase; font-size:8px; letter-spacing:.1em; margin-bottom:5px; }
+.insight-grid strong { font-size:10px; line-height:14px; font-weight:600; }
+.angle-row { display:flex; align-items:center; gap:10px; padding:12px; background:#edf0ff; color:#1b2333; }
+.angle-row .angle-icon { width:27px; height:27px; display:grid; place-items:center; color:#3155d8; background:#fff; }
+.angle-row div:nth-child(2) { flex:1; }
+.angle-row strong { display:block; font:500 16px 'Bodoni Moda'; margin-top:3px; }
+.tiny-label { color:#8c94a1; font-size:8px; letter-spacing:.11em; }
+.opportunity-card { margin-top:23px; }
+.opportunity-list > div { display:grid; grid-template-columns:28px 1fr auto; gap:10px; align-items:start; padding:12px 0; border-top:1px solid #e8e3da; }
+.opportunity-index { color:#3155d8; font:600 10px 'DM Sans'; }
+.opportunity-list strong { font-size:11px; }
+.opportunity-list p { color:#8c94a1; font-size:10px; margin-top:4px; }
+.opportunity-tag { color:#5ca679; font-size:8px; letter-spacing:.1em; font-weight:700; }
+.contact-intro { color:#7b8494; font-size:10px; line-height:15px; max-width:380px; margin-bottom:14px; }
+.contact-toolbar { display:flex; justify-content:space-between; align-items:center; border-top:1px solid #e8e3da; border-bottom:1px solid #e8e3da; padding:6px 0; color:#8c94a1; font-size:9px; }
+.contact-toolbar > div { display:flex; gap:14px; }
+.contact-toolbar .text-action { font-size:9px; padding:5px 0; }
+.contact-list { display:grid; gap:6px; padding:10px 0; }
+.contact-row { display:grid; grid-template-columns:18px 1fr auto; gap:9px; align-items:center; padding:10px; border:1px solid #e5e0d7; background:#fbfaf6; cursor:pointer; }
+.contact-row.selected { border-color:#aebeff; background:#f6f7ff; }
+.check-box { width:15px; height:15px; border:1px solid #c6c0b6; display:grid; place-items:center; color:white; }
+.check-box.checked { background:#3155d8; border-color:#3155d8; }
+.contact-main strong,.contact-main span,.contact-meta strong,.contact-meta span { display:block; }
+.contact-main strong { font-size:10px; }
+.contact-main span,.contact-meta span { color:#8c94a1; font-size:8px; margin-top:3px; }
+.contact-meta { text-align:right; }
+.contact-meta strong { color:#3155d8; font-size:10px; }
+.privacy-note { display:flex; gap:7px; align-items:flex-start; color:#9a7256; background:#fbefe7; padding:9px; font-size:9px; line-height:13px; }
+.next-card { width:100%; margin-top:23px; border:1px solid #3155d8; background:#3155d8; color:#fff; padding:16px; text-align:left; display:flex; justify-content:space-between; align-items:center; }
+.next-card .section-number { color:#bfc9ff; }
+.next-card strong,.next-card small { display:block; }
+.next-card strong { font:500 20px 'Bodoni Moda'; margin:4px 0; }
+.next-card small { color:#d0d7ff; font-size:9px; }
+.create-workspace,.launch-workspace { display:grid; grid-template-columns: .8fr 1.2fr; gap:23px; }
+.create-controls { padding:20px; }
+.create-controls h2,.launch-main h2 { font:500 32px/.98 'Bodoni Moda'; letter-spacing:-.06em; margin:22px 0 12px; }
+.create-controls h2 em,.launch-main h2 em { color:#3155d8; }
+.control-field { margin-top:20px; }
+.control-field select,.control-field input { min-height:37px; border:1px solid #d9d3c8; background:#fffdf9; padding:0 10px; font:500 11px 'DM Sans'; color:#1b2333; outline:none; }
+.format-grid { display:grid; gap:7px; margin-top:14px; }
+.format-grid button { text-align:left; border:1px solid #e5e0d7; background:#fbfaf6; padding:10px; display:grid; grid-template-columns:28px 1fr; column-gap:8px; align-items:center; }
+.format-grid button.selected { border-color:#3155d8; background:#edf0ff; }
+.format-grid button span { grid-row:span 2; width:28px; height:28px; display:grid; place-items:center; color:#3155d8; background:#fff; }
+.format-grid strong { font-size:10px; }
+.format-grid small { color:#8c94a1; font-size:8px; margin-top:3px; }
+.control-footer { border-top:1px solid #e5e0d7; margin-top:18px; padding-top:14px; display:flex; gap:12px; align-items:center; justify-content:space-between; }
+.safety-copy { color:#8c94a1; font-size:9px; line-height:13px; max-width:190px; }
+.asset-preview { background:#1b2333; padding:20px; color:#f8f5ef; }
+.asset-preview-head,.asset-footer { display:flex; align-items:center; justify-content:space-between; }
+.asset-preview .section-number { color:#aebeff; }
+.asset-preview .text-action { color:#aebeff; }
+.asset-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:9px; margin:17px 0; }
+.asset-card { height:310px; position:relative; overflow:hidden; background:#31394a; }
+.asset-card img { width:100%; height:100%; object-fit:cover; opacity:.85; }
+.asset-overlay { position:absolute; inset:45% 0 0; padding:14px 11px; background:linear-gradient(transparent,rgba(27,35,51,.88)); display:flex; flex-direction:column; justify-content:flex-end; }
+.asset-overlay span { color:#d0d7ff; font-size:8px; letter-spacing:.1em; }
+.asset-overlay strong { font:500 18px/1.02 'Bodoni Moda'; margin:6px 0; }
+.asset-overlay small { color:#b5bdcc; font-size:8px; }
+.play-button { position:absolute; top:10px; right:10px; border:1px solid rgba(255,255,255,.7); color:white; background:rgba(27,35,51,.35); border-radius:50%; width:27px; height:27px; display:grid; place-items:center; }
+.asset-footer { border-top:1px solid rgba(255,255,255,.15); padding-top:14px; color:#aeb7c5; font-size:9px; }
+.asset-footer span { display:flex; align-items:center; gap:5px; }
+.launch-main { padding:21px; }
+.campaign-fields { grid-template-columns:1.5fr 1fr .8fr; margin-top:24px; }
+.campaign-fields .control-field { margin-top:0; }
+.channel-selector { display:flex; align-items:center; gap:7px; flex-wrap:wrap; margin:23px 0; border-top:1px solid #e8e3da; padding-top:16px; }
+.channel-selector > span { color:#8c94a1; font-size:8px; letter-spacing:.1em; margin-right:5px; }
+.channel-selector button { border:1px solid #ded9d0; background:#fffdf9; color:#637084; padding:8px 11px; font:600 9px 'DM Sans'; display:flex; gap:6px; align-items:center; }
+.channel-selector button.selected { border-color:#3155d8; color:#3155d8; background:#edf0ff; }
+.channel-selector button span { width:19px; height:19px; display:grid; place-items:center; background:#1b2333; color:#fff; font-size:7px; }
+.launch-summary { display:grid; grid-template-columns:repeat(3,1fr); background:#f1eee8; padding:15px; margin-bottom:18px; }
+.launch-summary span,.launch-summary strong { display:block; }
+.launch-summary span { color:#8c94a1; font-size:8px; letter-spacing:.1em; margin-bottom:6px; }
+.launch-summary strong { font-size:12px; }
+.launch-summary small { color:#8c94a1; font-size:8px; font-weight:400; }
+.launch-disclaimer { display:flex; gap:7px; color:#9a7256; background:#fbefe7; padding:10px; font-size:9px; line-height:13px; margin-top:11px; }
+.launch-side { display:grid; gap:23px; align-content:start; }
+.launch-score { background:#edf0ff; padding:20px; display:flex; gap:15px; align-items:center; }
+.score-ring { width:78px; height:78px; border-radius:50%; border:7px solid #3155d8; display:flex; align-items:center; justify-content:center; flex-direction:column; flex:none; }
+.score-ring strong { font:500 25px 'Bodoni Moda'; line-height:20px; }
+.score-ring span { color:#3155d8; font-size:8px; }
+.launch-score h3 { font:500 21px 'Bodoni Moda'; margin:4px 0; }
+.launch-score p { color:#66718a; font-size:10px; line-height:15px; }
+.checklist { padding:19px; }
+.checklist-row { display:flex; align-items:center; gap:9px; border-top:1px solid #e8e3da; padding:11px 0; }
+.checklist-row > span { width:17px; height:17px; border-radius:50%; display:grid; place-items:center; }
+.checklist-row > span.done { background:#5ca679; color:white; }
+.checklist-row > span.pending { border:1px solid #d6cfc3; }
+.checklist-row strong { font-size:10px; flex:1; }
+.checklist-row small { font-size:8px; color:#b9754d; letter-spacing:.08em; }
+.spin-icon { animation:spin .7s linear infinite; }
+@media (max-width: 1000px) { .growth-grid,.create-workspace,.launch-workspace,.url-intake { grid-template-columns:1fr; } .asset-grid { grid-template-columns:repeat(3,1fr); } }
+@media (max-width: 720px) { .studio-sidebar { display:none; } .topbar { padding:0 18px; } .content-wrap { padding:28px 18px; } .page-heading { display:block; } .readiness-card { margin-top:22px; } .url-intake { gap:18px; } .insight-grid,.launch-summary { grid-template-columns:1fr; gap:12px; } .asset-grid { grid-template-columns:1fr; } .asset-card { height:260px; } .campaign-fields { grid-template-columns:1fr; } .control-footer { align-items:flex-start; flex-direction:column; } }

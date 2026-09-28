@@ -40,6 +40,7 @@ const navItems = [
   { label: "Avatar studio", icon: ScanFace },
   { label: "UGC studio", icon: Video, route: "/ugc-studio" },
   { label: "Campaigns", icon: Clapperboard, route: "/campaigns" },
+  { label: "Growth OS", icon: Target, route: "/growth-os" },
   { label: "Content library", icon: ImageIcon },
 ];
 

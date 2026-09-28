@@ -119,3 +119,19 @@
 .spin-icon { animation:spin .7s linear infinite; }
 @media (max-width: 1000px) { .growth-grid,.create-workspace,.launch-workspace,.url-intake { grid-template-columns:1fr; } .asset-grid { grid-template-columns:repeat(3,1fr); } }
 @media (max-width: 720px) { .studio-sidebar { display:none; } .topbar { padding:0 18px; } .content-wrap { padding:28px 18px; } .page-heading { display:block; } .readiness-card { margin-top:22px; } .url-intake { gap:18px; } .insight-grid,.launch-summary { grid-template-columns:1fr; gap:12px; } .asset-grid { grid-template-columns:1fr; } .asset-card { height:260px; } .campaign-fields { grid-template-columns:1fr; } .control-footer { align-items:flex-start; flex-direction:column; } }
+
+.deploy-panel { border:1px solid #d9d3c8; background:#f1eee8; padding:14px; margin:20px 0; }
+.deploy-panel-head { display:flex; justify-content:space-between; align-items:flex-start; gap:10px; }
+.deploy-panel-head strong { display:block; font:500 18px 'Bodoni Moda'; margin-top:4px; }
+.connection-badge { font-size:8px; letter-spacing:.1em; padding:5px 7px; font-weight:700; }
+.connection-badge.connected { color:#357b5b; background:#dff2e6; }
+.connection-badge.not-connected { color:#9a7256; background:#fbefe7; }
+.provider-toggle { display:flex; gap:7px; margin:13px 0; }
+.provider-toggle button { border:1px solid #d7d1c6; background:#fffdf9; padding:8px 10px; font:600 9px 'DM Sans'; color:#697487; display:flex; gap:6px; align-items:center; }
+.provider-toggle button.selected { border-color:#3155d8; color:#3155d8; background:#edf0ff; }
+.provider-toggle button span { width:20px; height:20px; display:grid; place-items:center; background:#1b2333; color:#fff; font-size:7px; }
+.approval-check { display:flex; gap:8px; align-items:flex-start; color:#596577; font-size:9px; line-height:13px; margin:13px 0; }
+.approval-check input { accent-color:#3155d8; margin-top:1px; }
+.secondary-button { border:1px solid #3155d8; color:#3155d8; background:#fffdf9; font:600 10px 'DM Sans'; padding:10px 13px; display:flex; align-items:center; justify-content:center; gap:7px; }
+.secondary-button:hover { background:#edf0ff; }
+.secondary-button:disabled { opacity:.55; cursor:not-allowed; }

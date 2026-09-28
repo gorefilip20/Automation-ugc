@@ -27,6 +27,7 @@ import {
   Video,
   WandSparkles,
   X,
+  Users,
 } from "lucide-react";
 
 const avatarImage = "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?auto=format&fit=crop&w=900&q=85";
@@ -41,6 +42,7 @@ const navItems = [
   { label: "UGC studio", icon: Video, route: "/ugc-studio" },
   { label: "Campaigns", icon: Clapperboard, route: "/campaigns" },
   { label: "Growth OS", icon: Target, route: "/growth-os" },
+  { label: "Creator CRM", icon: Users, route: "/creator-crm" },
   { label: "Content library", icon: ImageIcon },
 ];
 

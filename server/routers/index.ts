@@ -3,6 +3,7 @@ import { authRouter } from "./auth.js";
 import { adsRouter } from "./ads.js";
 import { crawlRouter } from "./crawl.js";
 import { analyticsRouter } from "./analytics.js";
+import { creatorsRouter } from "./creators.js";
 import { avatarRouter } from "./avatar.js";
 import { contentRouter } from "./content.js";
 import { ugcRouter } from "./ugc.js";
@@ -13,6 +14,7 @@ export const appRouter = router({
   ads: adsRouter,
   crawl: crawlRouter,
   analytics: analyticsRouter,
+  creators: creatorsRouter,
   workspace: workspaceRouter,
   avatar: avatarRouter,
   content: contentRouter,

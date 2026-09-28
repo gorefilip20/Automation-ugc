@@ -240,3 +240,53 @@ export const campaignMetrics = sqliteTable("campaign_metrics", {
   rawJson: text("rawJson"),
   syncedAt: text("syncedAt").notNull().$defaultFn(() => new Date().toISOString()),
 });
+
+export const creatorProfiles = sqliteTable("creator_profiles", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  workspaceId: integer("workspaceId").notNull().default(1),
+  name: text("name").notNull(),
+  handle: text("handle").notNull(),
+  platform: text("platform", { enum: ["instagram", "tiktok", "youtube", "pinterest", "blog"] }).notNull(),
+  niche: text("niche").notNull(),
+  location: text("location"),
+  bio: text("bio"),
+  profileUrl: text("profileUrl").notNull(),
+  avatarUrl: text("avatarUrl"),
+  followerCount: integer("followerCount").notNull().default(0),
+  engagementRate: text("engagementRate").notNull().default("0"),
+  avgViews: integer("avgViews").notNull().default(0),
+  email: text("email"),
+  contactStatus: text("contactStatus", { enum: ["unknown", "discoverable", "verified", "opted_out"] }).notNull().default("unknown"),
+  fitScore: integer("fitScore").notNull().default(0),
+  scoreReasons: text("scoreReasons").notNull().default("[]"),
+  status: text("status", { enum: ["discovered", "shortlisted", "contacted", "partnered", "archived"] }).notNull().default("discovered"),
+  source: text("source").notNull().default("demo-public-signal"),
+  lastSeenAt: text("lastSeenAt"),
+  notes: text("notes"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updatedAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const creatorDiscoveryJobs = sqliteTable("creator_discovery_jobs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  workspaceId: integer("workspaceId").notNull().default(1),
+  niche: text("niche").notNull(),
+  platforms: text("platforms").notNull().default("instagram,tiktok,youtube"),
+  location: text("location"),
+  minFollowers: integer("minFollowers").default(1000),
+  maxFollowers: integer("maxFollowers"),
+  status: text("status", { enum: ["queued", "running", "completed", "failed"] }).notNull().default("queued"),
+  resultCount: integer("resultCount").notNull().default(0),
+  source: text("source").notNull().default("demo-public-signal"),
+  errorMessage: text("errorMessage"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+  completedAt: text("completedAt"),
+});
+
+export const creatorActivities = sqliteTable("creator_activities", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  creatorId: integer("creatorId").notNull(),
+  type: text("type", { enum: ["discovered", "shortlisted", "note", "contacted", "replied", "partnered"] }).notNull(),
+  body: text("body"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+});

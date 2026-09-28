@@ -13,7 +13,8 @@
     "db:push": "drizzle-kit push",
     "db:migrate": "tsx server/migrate.ts",
     "test:ad-deployment": "tsx scripts/test-ad-deployment.ts",
-    "test:analytics": "tsx scripts/test-analytics.ts"
+    "test:analytics": "tsx scripts/test-analytics.ts",
+    "test:creator-discovery": "tsx scripts/test-creator-discovery.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",

@@ -8,6 +8,7 @@ import App from "./App";
 import { startLogin } from "./const";
 import "./index.css";
 import "./growth-os.css";
+import "./creator-crm.css";
 
 const queryClient = new QueryClient();
 

@@ -205,6 +205,56 @@ sqlite.exec(`
     rawJson TEXT,
     syncedAt TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS creator_profiles (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    workspaceId INTEGER NOT NULL DEFAULT 1,
+    name TEXT NOT NULL,
+    handle TEXT NOT NULL,
+    platform TEXT NOT NULL,
+    niche TEXT NOT NULL,
+    location TEXT,
+    bio TEXT,
+    profileUrl TEXT NOT NULL,
+    avatarUrl TEXT,
+    followerCount INTEGER NOT NULL DEFAULT 0,
+    engagementRate TEXT NOT NULL DEFAULT '0',
+    avgViews INTEGER NOT NULL DEFAULT 0,
+    email TEXT,
+    contactStatus TEXT NOT NULL DEFAULT 'unknown',
+    fitScore INTEGER NOT NULL DEFAULT 0,
+    scoreReasons TEXT NOT NULL DEFAULT '[]',
+    status TEXT NOT NULL DEFAULT 'discovered',
+    source TEXT NOT NULL DEFAULT 'demo-public-signal',
+    lastSeenAt TEXT,
+    notes TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    updatedAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS creator_discovery_jobs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    workspaceId INTEGER NOT NULL DEFAULT 1,
+    niche TEXT NOT NULL,
+    platforms TEXT NOT NULL DEFAULT 'instagram,tiktok,youtube',
+    location TEXT,
+    minFollowers INTEGER DEFAULT 1000,
+    maxFollowers INTEGER,
+    status TEXT NOT NULL DEFAULT 'queued',
+    resultCount INTEGER NOT NULL DEFAULT 0,
+    source TEXT NOT NULL DEFAULT 'demo-public-signal',
+    errorMessage TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    completedAt TEXT
+  );
+
+  CREATE TABLE IF NOT EXISTS creator_activities (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    creatorId INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    body TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 const candidateColumns = sqlite.prepare("PRAGMA table_info(email_candidates)").all() as Array<{ name: string }>;

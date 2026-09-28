@@ -9,6 +9,7 @@ import UGCStudio from "./pages/UGCStudio";
 import Campaigns from "./pages/Campaigns";
 import GrowthOS from "./pages/GrowthOS";
 import CrawlReview from "./pages/CrawlReview";
+import CreatorCRM from "./pages/CreatorCRM";
 
 function Router() {
   return (
@@ -18,6 +19,7 @@ function Router() {
       <Route path="/campaigns" component={Campaigns} />
       <Route path="/growth-os" component={GrowthOS} />
       <Route path="/growth-os/review/:jobId" component={CrawlReview} />
+      <Route path="/creator-crm" component={CreatorCRM} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

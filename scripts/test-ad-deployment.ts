@@ -8,6 +8,7 @@ import { eq } from "drizzle-orm";
 const requests: Array<{ url: string; body: string }> = [];
 const originalFetch = globalThis.fetch;
 const email = "reviewed.lead@example.com";
+const deploymentIds: number[] = [];
 
 function jsonResponse(body: unknown, status = 200) {
   return new Response(JSON.stringify(body), { status, headers: { "content-type": "application/json" } });
@@ -55,6 +56,8 @@ async function run() {
     await assert.rejects(() => deployCampaign({ ...base, provider: "meta", accountId: "act_123", audienceConsentApproved: false }), /Confirm that these leads are eligible/);
     const meta = await deployCampaign({ ...base, provider: "meta", accountId: "act_123" });
     const google = await deployCampaign({ ...base, provider: "google", accountId: "123-456-7890" });
+    if (meta.deploymentId) deploymentIds.push(meta.deploymentId);
+    if (google.deploymentId) deploymentIds.push(google.deploymentId);
 
     assert.equal(meta.externalCampaignId, "sim_meta_campaign_123");
     assert.equal(meta.audience?.audienceId, "sim_meta_audience_123");
@@ -81,6 +84,10 @@ async function run() {
     }, null, 2));
   } finally {
     globalThis.fetch = originalFetch;
+    for (const deploymentId of deploymentIds) {
+      db.delete(schema.campaignMetrics).where(eq(schema.campaignMetrics.deploymentId, deploymentId)).run();
+      db.delete(schema.adDeployments).where(eq(schema.adDeployments.id, deploymentId)).run();
+    }
     if (candidateId) {
       db.delete(schema.emailVerifications).where(eq(schema.emailVerifications.candidateId, candidateId)).run();
       db.delete(schema.emailCandidates).where(eq(schema.emailCandidates.id, candidateId)).run();

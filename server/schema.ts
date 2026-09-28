@@ -208,3 +208,35 @@ export const webhookDeliveries = sqliteTable("webhook_deliveries", {
   deliveredAt: text("deliveredAt"),
   createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
 });
+
+export const adDeployments = sqliteTable("ad_deployments", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  workspaceId: integer("workspaceId").notNull().default(1),
+  provider: text("provider", { enum: ["meta", "google"] }).notNull(),
+  accountId: text("accountId").notNull(),
+  campaignName: text("campaignName").notNull(),
+  externalCampaignId: text("externalCampaignId").notNull(),
+  externalResource: text("externalResource"),
+  audienceId: text("audienceId"),
+  destinationUrl: text("destinationUrl").notNull(),
+  trackedUrl: text("trackedUrl").notNull(),
+  status: text("status", { enum: ["paused", "active", "completed", "failed"] }).notNull().default("paused"),
+  lastSyncedAt: text("lastSyncedAt"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const campaignMetrics = sqliteTable("campaign_metrics", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  deploymentId: integer("deploymentId").notNull(),
+  provider: text("provider", { enum: ["meta", "google"] }).notNull(),
+  metricDate: text("metricDate").notNull(),
+  impressions: integer("impressions").notNull().default(0),
+  reach: integer("reach").notNull().default(0),
+  clicks: integer("clicks").notNull().default(0),
+  spend: text("spend").notNull().default("0"),
+  conversions: text("conversions").notNull().default("0"),
+  ctr: text("ctr").notNull().default("0"),
+  cpc: text("cpc").notNull().default("0"),
+  rawJson: text("rawJson"),
+  syncedAt: text("syncedAt").notNull().$defaultFn(() => new Date().toISOString()),
+});

@@ -173,6 +173,38 @@ sqlite.exec(`
     deliveredAt TEXT,
     createdAt TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS ad_deployments (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    workspaceId INTEGER NOT NULL DEFAULT 1,
+    provider TEXT NOT NULL,
+    accountId TEXT NOT NULL,
+    campaignName TEXT NOT NULL,
+    externalCampaignId TEXT NOT NULL,
+    externalResource TEXT,
+    audienceId TEXT,
+    destinationUrl TEXT NOT NULL,
+    trackedUrl TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'paused',
+    lastSyncedAt TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS campaign_metrics (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    deploymentId INTEGER NOT NULL,
+    provider TEXT NOT NULL,
+    metricDate TEXT NOT NULL,
+    impressions INTEGER NOT NULL DEFAULT 0,
+    reach INTEGER NOT NULL DEFAULT 0,
+    clicks INTEGER NOT NULL DEFAULT 0,
+    spend TEXT NOT NULL DEFAULT '0',
+    conversions TEXT NOT NULL DEFAULT '0',
+    ctr TEXT NOT NULL DEFAULT '0',
+    cpc TEXT NOT NULL DEFAULT '0',
+    rawJson TEXT,
+    syncedAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 const candidateColumns = sqlite.prepare("PRAGMA table_info(email_candidates)").all() as Array<{ name: string }>;

@@ -3,6 +3,7 @@ import { eq } from "drizzle-orm";
 import { z } from "zod";
 import { db } from "../db.js";
 import * as schema from "../schema.js";
+import { buildTrackedUrl, recordAdDeployment } from "./analytics.js";
 
 export const deploymentInputSchema = z.object({
   provider: z.enum(["meta", "google"]),
@@ -14,12 +15,13 @@ export const deploymentInputSchema = z.object({
   approved: z.literal(true),
   crawlJobId: z.number().int().positive().optional(),
   audienceConsentApproved: z.boolean().default(false),
+  workspaceId: z.number().int().positive().default(1),
 });
 
 export type DeploymentInput = z.infer<typeof deploymentInputSchema>;
 
 type AudienceResult = { provider: DeploymentInput["provider"]; audienceId: string; memberCount: number; message: string };
-type DeploymentResult = { provider: DeploymentInput["provider"]; status: "paused"; externalCampaignId: string; externalResource?: string; audience?: AudienceResult; message: string };
+type DeploymentResult = { provider: DeploymentInput["provider"]; status: "paused"; externalCampaignId: string; externalResource?: string; audience?: AudienceResult; deploymentId?: number; trackedUrl?: string; message: string };
 
 const META_OBJECTIVES: Record<DeploymentInput["objective"], string> = { conversions: "OUTCOME_SALES", traffic: "OUTCOME_TRAFFIC", lead_generation: "OUTCOME_LEADS", awareness: "OUTCOME_AWARENESS" };
 function requiredEnv(name: string) { const value = process.env[name]; if (!value) throw new Error(`${name} is not configured`); return value; }
@@ -110,5 +112,8 @@ export async function deployCampaign(input: DeploymentInput) {
     const emails = loadAudienceEmails(input.crawlJobId);
     audience = input.provider === "meta" ? await createMetaAudience(input, emails) : await createGoogleAudience(input, emails);
   }
-  return input.provider === "meta" ? deployToMeta(input, audience) : deployToGoogle(input, audience);
+  const result = await (input.provider === "meta" ? deployToMeta(input, audience) : deployToGoogle(input, audience));
+  const trackedUrl = buildTrackedUrl(input.destinationUrl, input.provider, input.campaignName);
+  const deploymentId = recordAdDeployment({ workspaceId: input.workspaceId, provider: result.provider, accountId: input.accountId, campaignName: input.campaignName, externalCampaignId: result.externalCampaignId, externalResource: result.externalResource, audienceId: result.audience?.audienceId, destinationUrl: input.destinationUrl, status: result.status }, trackedUrl);
+  return { ...result, deploymentId, trackedUrl };
 }

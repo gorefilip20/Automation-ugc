@@ -255,6 +255,69 @@ sqlite.exec(`
     body TEXT,
     createdAt TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS outreach_sequences (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    workspaceId INTEGER NOT NULL DEFAULT 1,
+    name TEXT NOT NULL,
+    brandName TEXT NOT NULL,
+    productName TEXT NOT NULL,
+    productCategory TEXT NOT NULL,
+    valueProp TEXT NOT NULL,
+    offer TEXT,
+    senderName TEXT NOT NULL,
+    senderEmail TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'draft',
+    dailyLimit INTEGER NOT NULL DEFAULT 25,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    updatedAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS outreach_steps (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    sequenceId INTEGER NOT NULL,
+    stepOrder INTEGER NOT NULL,
+    delayHours INTEGER NOT NULL DEFAULT 0,
+    subjectTemplate TEXT NOT NULL,
+    bodyTemplate TEXT NOT NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS creator_outreach (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    creatorId INTEGER NOT NULL,
+    sequenceId INTEGER NOT NULL,
+    stepId INTEGER NOT NULL,
+    email TEXT NOT NULL,
+    subject TEXT NOT NULL,
+    body TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'draft',
+    approvedAt TEXT,
+    scheduledAt TEXT,
+    sentAt TEXT,
+    repliedAt TEXT,
+    threadId TEXT,
+    providerMessageId TEXT,
+    lastError TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    updatedAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS outreach_events (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    outreachId INTEGER NOT NULL,
+    type TEXT NOT NULL,
+    providerEventId TEXT,
+    payload TEXT,
+    occurredAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+
+  CREATE TABLE IF NOT EXISTS outreach_suppressions (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    email TEXT NOT NULL,
+    reason TEXT NOT NULL DEFAULT 'unsubscribe',
+    source TEXT NOT NULL DEFAULT 'manual',
+    createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 const candidateColumns = sqlite.prepare("PRAGMA table_info(email_candidates)").all() as Array<{ name: string }>;

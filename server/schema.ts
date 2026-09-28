@@ -290,3 +290,66 @@ export const creatorActivities = sqliteTable("creator_activities", {
   body: text("body"),
   createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
 });
+
+export const outreachSequences = sqliteTable("outreach_sequences", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  workspaceId: integer("workspaceId").notNull().default(1),
+  name: text("name").notNull(),
+  brandName: text("brandName").notNull(),
+  productName: text("productName").notNull(),
+  productCategory: text("productCategory").notNull(),
+  valueProp: text("valueProp").notNull(),
+  offer: text("offer"),
+  senderName: text("senderName").notNull(),
+  senderEmail: text("senderEmail").notNull(),
+  status: text("status", { enum: ["draft", "active", "paused", "archived"] }).notNull().default("draft"),
+  dailyLimit: integer("dailyLimit").notNull().default(25),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updatedAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const outreachSteps = sqliteTable("outreach_steps", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  sequenceId: integer("sequenceId").notNull(),
+  stepOrder: integer("stepOrder").notNull(),
+  delayHours: integer("delayHours").notNull().default(0),
+  subjectTemplate: text("subjectTemplate").notNull(),
+  bodyTemplate: text("bodyTemplate").notNull(),
+});
+
+export const creatorOutreach = sqliteTable("creator_outreach", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  creatorId: integer("creatorId").notNull(),
+  sequenceId: integer("sequenceId").notNull(),
+  stepId: integer("stepId").notNull(),
+  email: text("email").notNull(),
+  subject: text("subject").notNull(),
+  body: text("body").notNull(),
+  status: text("status", { enum: ["draft", "queued", "sent", "replied", "bounced", "opted_out", "failed"] }).notNull().default("draft"),
+  approvedAt: text("approvedAt"),
+  scheduledAt: text("scheduledAt"),
+  sentAt: text("sentAt"),
+  repliedAt: text("repliedAt"),
+  threadId: text("threadId"),
+  providerMessageId: text("providerMessageId"),
+  lastError: text("lastError"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updatedAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const outreachEvents = sqliteTable("outreach_events", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  outreachId: integer("outreachId").notNull(),
+  type: text("type", { enum: ["queued", "sent", "delivered", "opened", "clicked", "reply", "bounce", "unsubscribe"] }).notNull(),
+  providerEventId: text("providerEventId"),
+  payload: text("payload"),
+  occurredAt: text("occurredAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const outreachSuppressions = sqliteTable("outreach_suppressions", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  email: text("email").notNull(),
+  reason: text("reason").notNull().default("unsubscribe"),
+  source: text("source").notNull().default("manual"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+});

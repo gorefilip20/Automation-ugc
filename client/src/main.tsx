@@ -9,6 +9,7 @@ import { startLogin } from "./const";
 import "./index.css";
 import "./growth-os.css";
 import "./creator-crm.css";
+import "./outreach.css";
 
 const queryClient = new QueryClient();
 

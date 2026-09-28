@@ -318,6 +318,72 @@ sqlite.exec(`
     source TEXT NOT NULL DEFAULT 'manual',
     createdAt TEXT NOT NULL DEFAULT (datetime('now'))
   );
+
+  CREATE TABLE IF NOT EXISTS ugc_production_briefs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    workspaceId INTEGER NOT NULL DEFAULT 1,
+    title TEXT NOT NULL,
+    productName TEXT NOT NULL,
+    productDescription TEXT NOT NULL,
+    productReferenceUrl TEXT,
+    targetAudience TEXT NOT NULL,
+    brandVoice TEXT NOT NULL,
+    objective TEXT NOT NULL,
+    platform TEXT NOT NULL,
+    aspectRatio TEXT NOT NULL DEFAULT '9:16',
+    durationSeconds INTEGER NOT NULL DEFAULT 20,
+    style TEXT NOT NULL DEFAULT 'testimonial',
+    avatarProfileId INTEGER,
+    productAssetUrl TEXT,
+    scriptJson TEXT,
+    promptManifest TEXT,
+    status TEXT NOT NULL DEFAULT 'draft',
+    disclosureRequired INTEGER NOT NULL DEFAULT 1,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    updatedAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
+  CREATE TABLE IF NOT EXISTS ugc_production_scenes (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    briefId INTEGER NOT NULL,
+    sceneOrder INTEGER NOT NULL,
+    beat TEXT NOT NULL,
+    durationSeconds INTEGER NOT NULL,
+    visualPrompt TEXT NOT NULL,
+    dialogue TEXT,
+    textOverlay TEXT,
+    cameraDirection TEXT NOT NULL,
+    soundDirection TEXT NOT NULL,
+    status TEXT NOT NULL DEFAULT 'planned'
+  );
+  CREATE TABLE IF NOT EXISTS ugc_generation_jobs (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    briefId INTEGER NOT NULL,
+    sceneId INTEGER,
+    kind TEXT NOT NULL,
+    provider TEXT NOT NULL DEFAULT 'manus-native',
+    model TEXT NOT NULL DEFAULT 'seedance-2-5',
+    prompt TEXT NOT NULL,
+    referencesJson TEXT NOT NULL DEFAULT '[]',
+    aspectRatio TEXT NOT NULL DEFAULT '9:16',
+    durationSeconds INTEGER,
+    status TEXT NOT NULL DEFAULT 'queued',
+    assetUrl TEXT,
+    errorMessage TEXT,
+    createdAt TEXT NOT NULL DEFAULT (datetime('now')),
+    completedAt TEXT
+  );
+  CREATE TABLE IF NOT EXISTS ugc_production_assets (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    briefId INTEGER NOT NULL,
+    sceneId INTEGER,
+    jobId INTEGER,
+    kind TEXT NOT NULL,
+    label TEXT NOT NULL,
+    assetUrl TEXT,
+    status TEXT NOT NULL DEFAULT 'pending',
+    disclosureStamp TEXT NOT NULL DEFAULT 'AI-generated virtual creator',
+    createdAt TEXT NOT NULL DEFAULT (datetime('now'))
+  );
 `);
 
 const candidateColumns = sqlite.prepare("PRAGMA table_info(email_candidates)").all() as Array<{ name: string }>;

@@ -9,6 +9,12 @@ import {
 import { protectedProcedure, router } from "../trpc.js";
 
 export const avatarRouter = router({
+  list: protectedProcedure
+    .input(z.object({ workspaceId: z.number().default(1) }))
+    .query(({ input }) => db.query.avatarProfiles.findMany({
+      where: eq(schema.avatarProfiles.workspaceId, input.workspaceId),
+      orderBy: (profile, { desc }) => [desc(profile.createdAt)],
+    })),
   generate: protectedProcedure
     .input(
       z.object({

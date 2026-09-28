@@ -8,6 +8,7 @@ import { outreachRouter } from "./outreach.js";
 import { avatarRouter } from "./avatar.js";
 import { contentRouter } from "./content.js";
 import { ugcRouter } from "./ugc.js";
+import { ugcPipelineRouter } from "./ugc-pipeline.js";
 import { workspaceRouter } from "./workspace.js";
 
 export const appRouter = router({
@@ -21,6 +22,7 @@ export const appRouter = router({
   avatar: avatarRouter,
   content: contentRouter,
   ugc: ugcRouter,
+  ugcPipeline: ugcPipelineRouter,
 });
 
 export type AppRouter = typeof appRouter;

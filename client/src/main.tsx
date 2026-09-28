@@ -10,6 +10,7 @@ import "./index.css";
 import "./growth-os.css";
 import "./creator-crm.css";
 import "./outreach.css";
+import "./ugc-pipeline.css";
 
 const queryClient = new QueryClient();
 

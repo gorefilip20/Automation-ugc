@@ -353,3 +353,72 @@ export const outreachSuppressions = sqliteTable("outreach_suppressions", {
   source: text("source").notNull().default("manual"),
   createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
 });
+
+export const ugcProductionBriefs = sqliteTable("ugc_production_briefs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  workspaceId: integer("workspaceId").notNull().default(1),
+  title: text("title").notNull(),
+  productName: text("productName").notNull(),
+  productDescription: text("productDescription").notNull(),
+  productReferenceUrl: text("productReferenceUrl"),
+  targetAudience: text("targetAudience").notNull(),
+  brandVoice: text("brandVoice").notNull(),
+  objective: text("objective").notNull(),
+  platform: text("platform", { enum: ["instagram", "tiktok", "youtube_shorts", "facebook"] }).notNull(),
+  aspectRatio: text("aspectRatio").notNull().default("9:16"),
+  durationSeconds: integer("durationSeconds").notNull().default(20),
+  style: text("style").notNull().default("testimonial"),
+  avatarProfileId: integer("avatarProfileId"),
+  productAssetUrl: text("productAssetUrl"),
+  scriptJson: text("scriptJson"),
+  promptManifest: text("promptManifest"),
+  status: text("status", { enum: ["draft", "brief_ready", "script_ready", "references_ready", "queued", "generating", "review", "approved", "failed"] }).notNull().default("draft"),
+  disclosureRequired: integer("disclosureRequired").notNull().default(1),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+  updatedAt: text("updatedAt").notNull().$defaultFn(() => new Date().toISOString()),
+});
+
+export const ugcProductionScenes = sqliteTable("ugc_production_scenes", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  briefId: integer("briefId").notNull(),
+  sceneOrder: integer("sceneOrder").notNull(),
+  beat: text("beat").notNull(),
+  durationSeconds: integer("durationSeconds").notNull(),
+  visualPrompt: text("visualPrompt").notNull(),
+  dialogue: text("dialogue"),
+  textOverlay: text("textOverlay"),
+  cameraDirection: text("cameraDirection").notNull(),
+  soundDirection: text("soundDirection").notNull(),
+  status: text("status", { enum: ["planned", "image_ready", "video_ready", "failed"] }).notNull().default("planned"),
+});
+
+export const ugcGenerationJobs = sqliteTable("ugc_generation_jobs", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  briefId: integer("briefId").notNull(),
+  sceneId: integer("sceneId"),
+  kind: text("kind", { enum: ["avatar_reference", "product_reference", "scene_image", "video", "thumbnail"] }).notNull(),
+  provider: text("provider").notNull().default("manus-native"),
+  model: text("model").notNull().default("seedance-2-5"),
+  prompt: text("prompt").notNull(),
+  referencesJson: text("referencesJson").notNull().default("[]"),
+  aspectRatio: text("aspectRatio").notNull().default("9:16"),
+  durationSeconds: integer("durationSeconds"),
+  status: text("status", { enum: ["queued", "generating", "ready", "failed", "cancelled"] }).notNull().default("queued"),
+  assetUrl: text("assetUrl"),
+  errorMessage: text("errorMessage"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+  completedAt: text("completedAt"),
+});
+
+export const ugcProductionAssets = sqliteTable("ugc_production_assets", {
+  id: integer("id").primaryKey({ autoIncrement: true }),
+  briefId: integer("briefId").notNull(),
+  sceneId: integer("sceneId"),
+  jobId: integer("jobId"),
+  kind: text("kind", { enum: ["avatar_reference", "product_reference", "scene_image", "video", "thumbnail", "captions"] }).notNull(),
+  label: text("label").notNull(),
+  assetUrl: text("assetUrl"),
+  status: text("status", { enum: ["pending", "ready", "approved", "rejected"] }).notNull().default("pending"),
+  disclosureStamp: text("disclosureStamp").notNull().default("AI-generated virtual creator"),
+  createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
+});

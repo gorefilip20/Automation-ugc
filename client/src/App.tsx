@@ -11,6 +11,7 @@ import GrowthOS from "./pages/GrowthOS";
 import CrawlReview from "./pages/CrawlReview";
 import CreatorCRM from "./pages/CreatorCRM";
 import Outreach from "./pages/Outreach";
+import UGCPipeline from "./pages/UGCPipeline";
 
 function Router() {
   return (
@@ -22,6 +23,7 @@ function Router() {
       <Route path="/growth-os/review/:jobId" component={CrawlReview} />
       <Route path="/creator-crm" component={CreatorCRM} />
       <Route path="/outreach" component={Outreach} />
+      <Route path="/ugc-pipeline" component={UGCPipeline} />
       <Route path="/404" component={NotFound} />
       <Route component={NotFound} />
     </Switch>

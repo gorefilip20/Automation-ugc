@@ -15,7 +15,8 @@
     "test:ad-deployment": "tsx scripts/test-ad-deployment.ts",
     "test:analytics": "tsx scripts/test-analytics.ts",
     "test:creator-discovery": "tsx scripts/test-creator-discovery.ts",
-    "test:outreach": "tsx scripts/test-outreach.ts"
+    "test:outreach": "tsx scripts/test-outreach.ts",
+    "test:ugc-pipeline": "tsx scripts/test-ugc-pipeline.ts"
   },
   "dependencies": {
     "@neondatabase/serverless": "^0.10.4",

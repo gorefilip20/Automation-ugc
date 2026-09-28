@@ -32,6 +32,22 @@ export const crawlRouter = router({
       return { job, emails, pages, verificationCounts };
     }),
 
+  markAudienceEligible: protectedProcedure
+    .input(z.object({ candidateIds: z.array(z.number()).min(1).max(1000), eligible: z.boolean(), reason: z.string().optional() }))
+    .mutation(async ({ input }) => {
+      const verificationStatuses = new Set(["verified", "likely_valid"]);
+      for (const candidateId of input.candidateIds) {
+        const candidate = db.query.emailCandidates.findFirst({ where: eq(schema.emailCandidates.id, candidateId) }).sync();
+        if (!candidate) continue;
+        const verification = db.query.emailVerifications.findFirst({ where: eq(schema.emailVerifications.candidateId, candidateId) }).sync();
+        if (input.eligible && (!verification || !verificationStatuses.has(verification.finalStatus))) {
+          throw new Error("Only verified or likely-valid leads can be marked eligible for an ad audience");
+        }
+        db.update(schema.emailCandidates).set({ audienceEligible: input.eligible ? 1 : 0, eligibilityReason: input.reason ?? null, eligibleAt: input.eligible ? new Date().toISOString() : null }).where(eq(schema.emailCandidates.id, candidateId)).run();
+      }
+      return { success: true };
+    }),
+
   recent: protectedProcedure
     .input(z.object({ workspaceId: z.number() }))
     .query(async ({ input }) => db.select().from(schema.crawlJobs).where(eq(schema.crawlJobs.workspaceId, input.workspaceId)).orderBy(desc(schema.crawlJobs.id)).limit(10).all()),

@@ -202,3 +202,16 @@
 .slack-card p { color:#aeb7c5; font-size:9px; line-height:14px; }
 @media (max-width: 900px) { .review-grid { grid-template-columns:1fr; } .review-metrics { grid-template-columns:repeat(2,1fr); } }
 @media (max-width: 620px) { .review-metrics { grid-template-columns:1fr 1fr; } .stage-row { gap:4px; } .stage small { display:none; } .stage { grid-template-columns:23px 1fr; } .email-row { grid-template-columns:9px 1fr; } .email-result { grid-column:2; text-align:left; } }
+
+.audience-toggle { border:1px solid #cfd8f8; background:#f4f6ff; color:#3155d8; font:600 8px 'DM Sans'; padding:5px 7px; margin-top:6px; cursor:pointer; }
+.audience-toggle.enabled { border-color:#b8dbc4; background:#eef8f1; color:#3b8b5a; }
+
+.audience-panel { border:1px solid #ded9d0; background:#fbfaf6; padding:12px; margin:14px 0; }
+.audience-panel.enabled { border-color:#b8c7f5; background:#f5f7ff; }
+.audience-panel-head { display:flex; justify-content:space-between; gap:10px; align-items:center; }
+.audience-panel-head strong { display:block; font-size:10px; margin-top:3px; }
+.audience-panel p { color:#8c94a1; font-size:8px; line-height:12px; margin:8px 0 0; }
+.audience-switch { border:1px solid #cfd8f8; background:#fff; color:#3155d8; font:600 8px 'DM Sans'; padding:6px 8px; white-space:nowrap; }
+.audience-switch.enabled { background:#3155d8; color:#fff; border-color:#3155d8; }
+.audience-switch:disabled { color:#a6afbe; border-color:#ded9d0; background:#f3f1ec; }
+.audience-consent { margin-top:10px; padding-top:10px; border-top:1px solid #dfe4f8; }

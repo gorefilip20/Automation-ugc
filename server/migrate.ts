@@ -175,6 +175,11 @@ sqlite.exec(`
   );
 `);
 
+const candidateColumns = sqlite.prepare("PRAGMA table_info(email_candidates)").all() as Array<{ name: string }>;
+if (!candidateColumns.some((column) => column.name === "audienceEligible")) sqlite.exec("ALTER TABLE email_candidates ADD COLUMN audienceEligible INTEGER NOT NULL DEFAULT 0");
+if (!candidateColumns.some((column) => column.name === "eligibilityReason")) sqlite.exec("ALTER TABLE email_candidates ADD COLUMN eligibilityReason TEXT");
+if (!candidateColumns.some((column) => column.name === "eligibleAt")) sqlite.exec("ALTER TABLE email_candidates ADD COLUMN eligibleAt TEXT");
+
 const existingUser = sqlite
   .prepare("SELECT id FROM users WHERE id = 1")
   .get();

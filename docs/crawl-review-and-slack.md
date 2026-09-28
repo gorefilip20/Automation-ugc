@@ -63,3 +63,21 @@ The screen polls the crawl job and displays:
 ## Operational note
 
 The current worker runs in the API process for the prototype. For production, run it as a persistent background worker or managed queue process so crawls continue through API restarts and can be retried independently. The database tables are already separated so that worker can be moved without changing the review UI contract.
+
+## Verified leads in ad campaigns
+
+Public discovery alone does not make a lead eligible for ad audience targeting. In the crawl review screen, a reviewer must mark an email as eligible after confirming the applicable consent or lawful basis. Only `verified` or `likely_valid` candidates with that flag are considered.
+
+When the campaign launch panel enables **Add to campaign**, the deploy request requires a second confirmation that the selected leads may be used for advertising. Emails are normalized and SHA-256 hashed server-side; raw emails are never sent to Meta or Google. The existing campaign approval gate remains required and campaigns are created paused.
+
+Meta creates a Custom Audience with `USER_PROVIDED_ONLY` and uploads hashed emails in batches. Google uses the current Data Manager API path for new Customer Match integrations. Configure the Google Data Manager variables in addition to the normal Google Ads campaign variables:
+
+```bash
+GOOGLE_DATA_MANAGER_ACCESS_TOKEN=optional-separate-oauth-token
+GOOGLE_DATA_MANAGER_PARENT=accountTypes/GOOGLE_ADS/accounts/1234567890
+GOOGLE_DATA_MANAGER_OPERATING_ACCOUNT_ID=1234567890
+GOOGLE_DATA_MANAGER_OPERATING_ACCOUNT_TYPE=GOOGLE_ADS
+GOOGLE_DATA_MANAGER_CUSTOMER_MATCH_TERMS_ACCEPTED=true
+```
+
+Google Customer Match terms must be accepted in the operating account. Audience creation and member ingestion are provider-side operations and may remain asynchronous or subject to account eligibility and policy review. The response includes the external audience ID so the next ad-set/ad-group creation step can attach it.

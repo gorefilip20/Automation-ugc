@@ -177,6 +177,9 @@ export const emailCandidates = sqliteTable("email_candidates", {
   sourceUrl: text("sourceUrl").notNull(),
   sourceType: text("sourceType").notNull().default("public_page"),
   confidence: integer("confidence").notNull().default(50),
+  audienceEligible: integer("audienceEligible").notNull().default(0),
+  eligibilityReason: text("eligibilityReason"),
+  eligibleAt: text("eligibleAt"),
   createdAt: text("createdAt").notNull().$defaultFn(() => new Date().toISOString()),
 });
 
